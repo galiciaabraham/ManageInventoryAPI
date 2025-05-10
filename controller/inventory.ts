@@ -1,17 +1,21 @@
 import { productModel } from "../model/mongoose";
 
 const addNewProduct = async (req: any, res: any) => {
+    console.log('Request body:', req.body);
     try {
-        const data = {
+        console.log('Called addNewProduct correctly');
+        const newProduct = {
             product_id : req.body.productId,
             product_name : req.body.productName,
             quantity : req.body.quantity,
             entry_date : req.body.entryDate,
             modification_date : ''
         }
-        await productModel.create(data);
-        res.status(204);
+        console.log(newProduct);
+        await productModel.create(newProduct);
+        res.status(201).json(newProduct);
     } catch (error) {
+        console.error(error);
         res.status(500).send('An error has occured while adding the new product.');
     }
 }
@@ -46,14 +50,15 @@ const getProductById = async (req: any, res: any) => {
 }
 
 const updateProduct = async (req : any, res: any) => {
+    const id = req.params.id;
     try {
         const data = {
+            product_id : id,
             product_name : req.body.productName,
             quantity : req.body.quantity,
             entry_date : req.body.entryDate,
             modify_date : Date.now().toString()
         }
-        const id = req.params.id;
         await productModel.findByIdAndUpdate( {product_id : id}, data);
         res.status(204);
     } catch (error) {
