@@ -51,16 +51,21 @@ const getProductById = async (req: any, res: any) => {
 
 const updateProduct = async (req : any, res: any) => {
     const id = req.params.id;
-    try {
-        const data = {
+    const data = {
             product_id : id,
             product_name : req.body.productName,
             quantity : req.body.quantity,
             entry_date : req.body.entryDate,
-            modify_date : Date.now().toString()
+            modification_date : new Date().toLocaleDateString('en-US', {year: 'numeric', month: '2-digit', day: '2-digit'})
         }
-        await productModel.findByIdAndUpdate( {product_id : id}, data);
-        res.status(204);
+        const filter = { product_id : id};
+    try {
+        
+        const result = await productModel.updateOne( filter, data);
+        if (result.modifiedCount === 1){
+            res.status(204).send(result);
+
+        }
     } catch (error) {
         res.status(500).send('An error has occured while updating the new product.');
     }
@@ -68,10 +73,12 @@ const updateProduct = async (req : any, res: any) => {
 
 const deleteProduct = async (req : any, res: any) => {
     const id = req.params.id;
+    const filter = {product_id : id};
     try {
-        console.log(id);
-        await productModel.deleteOne({product_id : id})
-        res.status(204);
+        const result = await productModel.deleteOne(filter)
+        if (result.deletedCount == 1){
+        res.status(204).send(result);
+        }
     } catch (error) {
         res.status(500).send('An error has occured while deleting the product, Oh no!');
     }
