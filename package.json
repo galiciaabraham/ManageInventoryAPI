@@ -6,10 +6,12 @@
   "scripts": {
     "start": "nodemon server.ts",
     "swagger": "node swagger.js",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "build" : "tsc"
   },
   "dependencies": {
     "@types/mongoose": "^5.11.96",
+    "@types/swagger-ui-express": "^4.1.8",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",

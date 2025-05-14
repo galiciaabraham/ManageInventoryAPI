@@ -23,4 +23,5 @@ router.put('/:id', utilities.handleErrors( productController.updateProduct.bind(
 /*Delete a product by ID */
 router.delete('/:id', utilities.handleErrors ( productController.deleteProduct.bind(productController) ));
 
+
 module.exports = router;
