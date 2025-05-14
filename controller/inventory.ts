@@ -2,9 +2,12 @@ import { productModel } from "../model/mongoose";
 import { Request, Response } from 'express';
 import  { Product }  from '../utilities/productType';
 
+//Encapsulation of the Product Controller functions within a TypeScript class.
 class ProductController {
+    //Initializes a TypeScript List to store the new products added during the current session.
     private products : Product[] = [];
 
+    //Add a new product to the data base and push it to the current session list of added products
     public async addNewProduct(req: Request, res: Response) : Promise<void> {
         try {
             const newProduct : Product = {
@@ -22,7 +25,7 @@ class ProductController {
         }
     }
 
-
+    //Get all products from the database.
     public async getAllProducts (req: Request, res: Response) : Promise<void> {
         try {
             const data = await productModel.find({});
@@ -35,7 +38,7 @@ class ProductController {
             res.status(500).send('An error has occured while retreiving the data, Oh no!');
         }
     }
-
+    //Get a product by ID from the database
     public async getProductById (req: Request, res: Response) : Promise<void> {
         const id = req.params.id;
         try {
@@ -49,7 +52,7 @@ class ProductController {
             res.status(500).send('An error has occured while retreiving the data, Oh no!');
         }
     }
-
+    //Update a product by ID in the database
     public async updateProduct (req : Request, res: Response) : Promise<void> {
         const id = req.params.id;
         const update : Product = {
@@ -71,7 +74,7 @@ class ProductController {
             res.status(500).send('An error has occured while updating the new product.');
         }
     }
-
+    //Delete a product from the database by ID
     public async deleteProduct (req : Request, res: Response) : Promise<void> {
         const id = req.params.id;
         const filter = {product_id : id};
@@ -85,7 +88,9 @@ class ProductController {
         }
     }
 
+    //Find a product added during the current session using recursion.
     private findProductRecursively (products: Product[], productId: string): Product | null {
+
             for (const product of products) {
                 if (product.product_id === productId) {
                     return product;
@@ -94,6 +99,7 @@ class ProductController {
             return null;
         }
     
+    //Return the result of the recursive search. 
     public recursiveSearch(req : Request, res: Response) {
     const productId = req.params.id;
     const product = this.findProductRecursively(this['products'], productId);

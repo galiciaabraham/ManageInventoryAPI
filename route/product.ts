@@ -3,7 +3,6 @@ export {};
 import express from 'express';
 const router = express.Router();
 import utilities from '../utilities/utilities';
-
 import { productController } from '../controller/inventory';
 
 /*Retrieve all products */
