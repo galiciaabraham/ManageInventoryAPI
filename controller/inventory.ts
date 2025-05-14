@@ -56,7 +56,7 @@ class ProductController {
     public async updateProduct (req : Request, res: Response) : Promise<void> {
         const id = req.params.id;
         const update : Product = {
-                product_id : id,
+                product_id : parseInt(id),
                 product_name : req.body.product_name,
                 quantity : req.body.quantity,
                 entry_date : req.body.entry_date,
@@ -89,10 +89,10 @@ class ProductController {
     }
 
     //Find a product added during the current session using recursion.
-    private findProductRecursively (products: Product[], productId: string): Product | null {
-
+    private findProductRecursively (products: Product[], product_id: string): Product | null {
+            
             for (const product of products) {
-                if (product.product_id === productId) {
+                if (product.product_id === parseInt(product_id)) {
                     return product;
                 }
             }
@@ -101,8 +101,8 @@ class ProductController {
     
     //Return the result of the recursive search. 
     public recursiveSearch(req : Request, res: Response) {
-    const productId = req.params.id;
-    const product = this.findProductRecursively(this['products'], productId);
+    const product_id = req.params.id;
+    const product = this.findProductRecursively(this['products'], product_id);
     if (product) {
         res.status(200).json(product);
     } else {

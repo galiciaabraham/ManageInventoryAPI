@@ -6,32 +6,60 @@
     "version": "1.0.0"
   },
   "host": "localhost:3000",
-  "basePath": "/",
+  "basePath": "/product",
   "schemes": [
     "http"
   ],
   "paths": {
-    "/product/": {
+    "/": {
       "get": {
-        "description": "",
+        "description": "Return all the products found in the database.",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
+          }, "404": {
+            "description": "Product not found"
           }
         }
       },
       "post": {
-        "description": "",
+        "description": "Add a new product to the database and push it to the current session list.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "product_id": {
+                  "example": "8"
+                },
+                "product_name": {
+                  "example": "New product"
+                },
+                "quantity": {
+                  "example": "50"
+                },
+                "entry_date": {
+                  "example": "1-1-1999"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Product added. Added product returned"
+          },
+          "500": {
+            "description": "An error occured while adding the product"
           }
         }
       }
     },
-    "/product/{id}": {
+    "/{id}": {
       "get": {
-        "description": "",
+        "description": "Get a product from the dabase based on the product_id",
         "parameters": [
           {
             "name": "id",
@@ -41,29 +69,52 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
+          }, "404": {
+            "description": "Product not found"
           }
         }
       },
       "put": {
-        "description": "",
+        "description": "Update an existing product in the database",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "product_name": {
+                  "example": "New product"
+                },
+                "quantity": {
+                  "example": "50"
+                },
+                "entry_date": {
+                  "example": "1-1-1999"
+                }
+              }
+            }
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200" : {
+            "description" : "OK, updated item returned"
+          },
+          "500" : {
+            "description": "An error occured while updating the product"
           }
         }
       },
       "delete": {
-        "description": "",
+        "description": "Delete a product from the database.",
         "parameters": [
           {
             "name": "id",
@@ -73,15 +124,18 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "An error occured while deleting the product"
           }
         }
       }
     },
     "/recursive/{id}": {
       "get": {
-        "description": "",
+        "description": "Get a list of all the products added during the current session using recursion.",
         "parameters": [
           {
             "name": "id",
@@ -91,18 +145,10 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api-docs": {
-      "get": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
+          }, "404": {
+            "description": "Product not found"
           }
         }
       }
