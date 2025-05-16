@@ -69,6 +69,8 @@ class ProductController {
             if (result.modifiedCount === 1){
                 res.status(200).json(update);
 
+            } else {
+                throw new Error("Product not found")
             }
         } catch (error) {
             res.status(500).send('An error has occured while updating the new product.');
@@ -82,7 +84,11 @@ class ProductController {
             const result = await productModel.deleteOne(filter)
             if (result.deletedCount == 1){
             res.status(204).send(result);
+            
+            } else { 
+                throw new Error("Product not found");
             }
+
         } catch (error) {
             res.status(500).send('An error has occured while deleting the product, Oh no!');
         }
