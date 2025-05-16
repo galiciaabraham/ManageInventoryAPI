@@ -10,8 +10,9 @@ const port = process.env.PORT || 3000;
 //Ensures that the app can correctly parse any returned json object
 app.use(express.json());
 
+//Redirect the user to the documentation.
 app.get('/', (req : any, res: any) => {
-    res.send('Hello World, this will be my new API');
+    res.redirect('/api-docs');
 })
 
 //This is the general route used to change the database data.
